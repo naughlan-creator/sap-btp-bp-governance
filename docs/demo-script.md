@@ -30,7 +30,10 @@ Then say what you'll show: *"Two users side by side, then the code that makes it
 - [ ] Your editor open on [srv/governance-service.cds](../srv/governance-service.cds).
 - [ ] *If deployed:* BTP cockpit tabs for **Role Collections** and **Destinations**, the approuter
       URL (already logged in), and the last green Azure Pipelines run.
-- [ ] Restart `cds watch` just before you start. Data is in memory, so a restart resets the seed data.
+- [ ] Restart the server just before you start: **Ctrl+C**, then `npm run watch` again. Data is in
+      memory, so a restart resets the seed data. Use `npm run watch` (or `npx cds watch`), not a
+      bare `cds watch`. The npm script uses the project's own CAP tools and doesn't depend on a
+      global install being on PATH.
 - [ ] Zoom the browser to 110–125% and turn on Do Not Disturb.
 
 **Seed data you'll use**
@@ -186,7 +189,7 @@ one-to-one onto RAP, so on S/4HANA or in an MDG enhancement I'd build the same t
   Then do the code tour.
 - **The wrong user is logged in:** basic auth is cached per browser. Use the other browser or a
   new private window.
-- **Data looks wrong after rehearsal:** restart `cds watch`, which resets the in-memory data.
+- **Data looks wrong after rehearsal:** Ctrl+C, then `npm run watch`. The restart resets the in-memory data.
 - **No internet:** UI5 loads from the `ui5.sap.com` CDN, so the UI needs a connection. Fall back
   to the tests and the code.
 - **Best insurance:** record a 3-minute screen capture of Scenes 1–5 after your rehearsal, and

@@ -86,17 +86,28 @@ annotate service.ChangeRequests with @(
     country,
     createdBy
   ],
+  // High importance = never hidden by the responsive table on narrow or zoomed screens
   UI.LineItem           : [
-    {Value: title},
-    {Value: changeType_code},
+    {
+      Value            : title,
+      ![@UI.Importance]: #High
+    },
+    {
+      Value            : status_code,
+      Criticality      : status.criticality,
+      ![@UI.Importance]: #High
+    },
+    {
+      Value            : changeType_code,
+      ![@UI.Importance]: #High
+    },
+    {
+      Value            : createdBy,
+      ![@UI.Importance]: #High
+    },
     {Value: businessPartner},
     {Value: organizationName},
     {Value: country},
-    {
-      Value      : status_code,
-      Criticality: status.criticality
-    },
-    {Value: createdBy},
     {Value: modifiedAt},
     {
       $Type : 'UI.DataFieldForAction',

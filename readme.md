@@ -68,12 +68,12 @@ npm test
 
 ## Import the remote API
 
-`srv/external/API_BUSINESS_PARTNER.cds` is checked in as a **stub**: the same shape `cds import`
-generates, cut down to the fields this app uses. Replace it with the real import:
+`srv/external/API_BUSINESS_PARTNER.cds` was generated with `cds import` from the EDMX specification
+on the SAP Business Accelerator Hub. The source EDMX sits next to it. To refresh it:
 
 1. Log in to <https://api.sap.com>, open **Business Partner (A2X)** (`API_BUSINESS_PARTNER`) and
    download the **EDMX** specification.
-2. Import it over the stub:
+2. Re-import it:
    ```bash
    cds import API_BUSINESS_PARTNER.edmx --as cds --force
    ```
