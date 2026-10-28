@@ -1,0 +1,47 @@
+{
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Requester",
+      "description": "Create and submit Business Partner change requests"
+    },
+    {
+      "name": "$XSAPPNAME.Approver",
+      "description": "Approve or reject Business Partner change requests"
+    }
+  ],
+  "attributes": [],
+  "role-templates": [
+    {
+      "name": "Requester",
+      "description": "Business user requesting master data changes",
+      "scope-references": ["$XSAPPNAME.Requester"],
+      "attribute-references": []
+    },
+    {
+      "name": "Approver",
+      "description": "Master data governance approver",
+      "scope-references": ["$XSAPPNAME.Approver"],
+      "attribute-references": []
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "BPGov_Requester",
+      "description": "BP Governance demo - Requester",
+      "role-template-references": ["$XSAPPNAME.Requester"]
+    },
+    {
+      "name": "BPGov_Approver",
+      "description": "BP Governance demo - Approver",
+      "role-template-references": ["$XSAPPNAME.Approver"]
+    },
+    {
+      "name": "BPGov_DataSteward",
+      "description": "BP Governance demo - Requester and Approver (four-eyes still applies)",
+      "role-template-references": ["$XSAPPNAME.Requester", "$XSAPPNAME.Approver"]
+    }
+  ],
+  "oauth2-configuration": {
+    "redirect-uris": ["https://*.hana.ondemand.com/**", "http://localhost:5000/**"]
+  }
+}

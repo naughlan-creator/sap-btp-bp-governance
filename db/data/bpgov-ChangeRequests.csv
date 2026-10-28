@@ -1,0 +1,4 @@
+ID;title;changeType_code;businessPartner;organizationName;country;city;taxNumber;justification;status_code;createdBy;modifiedBy
+3f1c2a10-0001-4c3e-9a01-000000000001;Onboard new logistics supplier;CREATE;;Nordic Freight AB;SE;Gothenburg;SE556677889901;New carrier for Scandinavian routes;SUBMITTED;alice;alice
+3f1c2a10-0002-4c3e-9a01-000000000002;Correct legal name after merger;UPDATE;10100001;Inlandsfracht GmbH & Co. KG;DE;Hamburg;DE123456789;Legal entity renamed after merger;NEW;alice;alice
+3f1c2a10-0003-4c3e-9a01-000000000003;Block insolvent customer;BLOCK;10100003;Domestic US Customer 1;US;Chicago;;Customer filed for insolvency;SUBMITTED;carol;carol

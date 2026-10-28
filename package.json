@@ -1,0 +1,92 @@
+{
+  "name": "bp-governance",
+  "version": "1.0.0",
+  "description": "Business Partner change-request demo on SAP BTP (CAP + Fiori elements). Demo on BTP trial, not production.",
+  "type": "module",
+  "dependencies": {
+    "@cap-js/sqlite": "^3",
+    "@sap-cloud-sdk/connectivity": "^4",
+    "@sap-cloud-sdk/http-client": "^4",
+    "@sap-cloud-sdk/resilience": "^4",
+    "@sap/cds": "^10",
+    "@sap/xssec": "^4"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch": "cds watch",
+    "watch:sandbox": "cds watch --profile sandbox",
+    "test": "node --test --test-reporter=spec \"test/**/*.test.js\"",
+    "build": "cds build --production && node scripts/copy-initial-data.js"
+  },
+  "private": true,
+  "cds": {
+    "requires": {
+      "API_BUSINESS_PARTNER": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BUSINESS_PARTNER",
+        "[sandbox]": {
+          "credentials": {
+            "url": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER"
+          }
+        },
+        "[production]": {
+          "credentials": {
+            "destination": "API_BUSINESS_PARTNER",
+            "path": "/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER"
+          }
+        }
+      },
+      "auth": {
+        "[development]": {
+          "kind": "mocked",
+          "users": {
+            "alice": {
+              "password": "alice",
+              "roles": [
+                "Requester"
+              ]
+            },
+            "carol": {
+              "password": "carol",
+              "roles": [
+                "Requester"
+              ]
+            },
+            "bob": {
+              "password": "bob",
+              "roles": [
+                "Approver"
+              ]
+            },
+            "dave": {
+              "password": "dave",
+              "roles": [
+                "Requester",
+                "Approver"
+              ]
+            }
+          }
+        },
+        "[production]": {
+          "kind": "xsuaa"
+        }
+      },
+      "db": {
+        "[production]": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": ":memory:"
+          }
+        }
+      }
+    }
+  },
+  "engines": {
+    "node": "^22"
+  },
+  "devDependencies": {
+    "@cap-js/cds-test": "^1.0.2",
+    "@sap/cds-dk": "^10",
+    "mbt": "^1.2.49"
+  }
+}

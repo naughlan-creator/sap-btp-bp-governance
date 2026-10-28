@@ -1,0 +1,21 @@
+node_modules/
+target/
+_out/
+gen/
+
+.cdsrc-private.json
+default-*.json
+*.sqlite
+
+# MTA
+mta_archives/
+*_mta_build_tmp
+*.mtar
+app/router/resources/
+
+# Other
+.DS_Store
+.claude/settings.local.json
+
+# @cap-js/cds-typer
+@cds-models

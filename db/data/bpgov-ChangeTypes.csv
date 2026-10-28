@@ -1,0 +1,4 @@
+code;name;descr
+CREATE;Create;Create a new Business Partner
+UPDATE;Update;Change an existing Business Partner
+BLOCK;Block;Block an existing Business Partner

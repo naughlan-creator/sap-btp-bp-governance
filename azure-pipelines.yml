@@ -1,0 +1,88 @@
+# Build, test and deploy the bp-governance MTA to a SAP BTP trial Cloud Foundry space.
+#
+# Required variable group "btp-trial" (Pipelines > Library):
+#   CF_API       e.g. https://api.cf.us10-001.hana.ondemand.com
+#   CF_ORG       your trial org, e.g. 1a2b3c4dtrial
+#   CF_SPACE     dev
+#   CF_USERNAME  your SAP ID e-mail
+#   CF_PASSWORD  your SAP ID password  (mark as secret)
+
+trigger:
+  branches:
+    include: [main]
+
+pr:
+  branches:
+    include: [main]
+
+# Self-hosted agent on your own PC (pool "Default"). Once the free Microsoft-hosted
+# parallel-job grant is approved, replace this with:   vmImage: ubuntu-latest
+pool:
+  name: Default
+
+variables:
+  - group: btp-trial
+  - name: mtarName
+    value: bp-governance_$(Build.BuildNumber).mtar
+
+stages:
+  - stage: Build
+    displayName: Build and test
+    jobs:
+      - job: build
+        steps:
+          - task: NodeTool@0
+            displayName: Use Node.js 22
+            inputs:
+              versionSpec: "22.x"
+
+          - script: npm ci
+            displayName: Install dependencies
+
+          - script: npm test
+            displayName: Run CAP service tests (cds.test)
+
+          - script: npx mbt build --mtar $(mtarName) -t $(Build.ArtifactStagingDirectory)
+            displayName: Build MTA archive
+
+          - publish: $(Build.ArtifactStagingDirectory)/$(mtarName)
+            artifact: mtar
+            displayName: Publish MTA archive
+
+  - stage: Deploy
+    displayName: Deploy to BTP trial
+    dependsOn: Build
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - deployment: deploy
+        environment: btp-trial
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: mtar
+
+                # Microsoft-hosted Linux agents have no cf CLI; a self-hosted PC usually already has it
+                - bash: |
+                    curl -sL "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v8&source=github" | tar -zx -C /tmp
+                    sudo mv /tmp/cf8 /usr/local/bin/cf
+                  displayName: Install cf CLI (Linux only)
+                  condition: eq(variables['Agent.OS'], 'Linux')
+
+                - script: cf install-plugin multiapps -r CF-Community -f
+                  displayName: Install MultiApps plugin
+
+                # cf auth reads CF_USERNAME / CF_PASSWORD from the environment, so the secret never hits the command line.
+                # "|| exit 1" stops on the first failure in both cmd (Windows agent) and bash (Linux agent).
+                - script: |
+                    cf api $(CF_API) || exit 1
+                    cf auth || exit 1
+                    cf target -o $(CF_ORG) -s $(CF_SPACE)
+                  displayName: Log in to Cloud Foundry
+                  env:
+                    CF_USERNAME: $(CF_USERNAME)
+                    CF_PASSWORD: $(CF_PASSWORD)
+
+                - script: cf deploy $(Pipeline.Workspace)/mtar/$(mtarName) -f
+                  displayName: Deploy MTA

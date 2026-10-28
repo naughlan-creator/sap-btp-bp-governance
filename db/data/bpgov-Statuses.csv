@@ -1,0 +1,5 @@
+code;name;criticality
+NEW;New;0
+SUBMITTED;Submitted;2
+APPROVED;Approved;3
+REJECTED;Rejected;1

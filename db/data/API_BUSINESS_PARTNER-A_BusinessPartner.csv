@@ -1,0 +1,6 @@
+BusinessPartner;BusinessPartnerFullName;BusinessPartnerCategory;BusinessPartnerGrouping;CreationDate;BusinessPartnerIsBlocked
+10100001;Inlandsfracht GmbH;2;BP02;2019-03-14;false
+10100002;Domestic DE Supplier 1;2;BP02;2019-03-14;false
+10100003;Domestic US Customer 1;2;BP03;2020-01-09;false
+10100004;Jane Doe;1;BP01;2021-06-30;false
+10100005;Global Parts Ltd;2;BP02;2018-11-02;true
