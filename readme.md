@@ -10,6 +10,16 @@ requests (create / update / block a BP). Approvers approve or reject them, under
 principle. A BP number on an update or block request is checked live against the S/4HANA
 Business Partner API.
 
+## Screenshots
+
+Deployed and verified on 29 Oct 2026: green Azure Pipelines run, 14/14 tests passing, both apps
+running on BTP Cloud Foundry, XSUAA role collections, and the Fiori elements UI.
+**[See all screenshots →](docs/img/README.md)**
+
+| Pipeline: build, test, deploy | Fiori elements object page |
+|---|---|
+| [![Pipeline stages](docs/img/pipeline-stages.png)](docs/img/README.md) | [![Object page](docs/img/Approver-object-page.png)](docs/img/README.md) |
+
 ## What this demonstrates
 
 | Topic | Where |
